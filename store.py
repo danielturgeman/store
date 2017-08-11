@@ -168,6 +168,18 @@ def delete_category(id):
         code = e.args
         code, msg = e.args[0], e.args[1]
     '''
+@delete('/product/<id>')
+def delete_product(id):
+    try:
+        with connection.cursor() as cursor:
+            sql = "DELETE FROM Products WHERE id = '{}'".format(id)
+            cursor.execute(sql)
+            connection.commit()
+            print("Successful deletion")
+            return json.dumps({"STATUS":"SUCCESS", "CODE": 201})
+
+    except Exception as e:
+        return json.dumps({"STATUS":"ERROR", "MSG": repr(e), "CODE": 500})
 
 @get('/js/<filename:re:.*\.js>')
 def javascripts(filename):
